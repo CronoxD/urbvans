@@ -54,3 +54,40 @@ class ModelTests(TestCase):
                 seats=seats,
                 status=status
             )
+
+    def test_status_vans(self):
+        """Test models van only accept the status 'Activa' and 'En reparación'"""
+        plates = 'AW3-123'
+        economic_number = 'A1-0001'
+        seats = 6
+        status = 'Activa'
+
+        van = Van.objects.create(
+            plates=plates,
+            economic_number=economic_number,
+            seats=seats,
+            status=status
+        )
+
+        self.assertIsNotNone(van.pk)
+
+        status = 'En reparación'
+
+        van = Van.objects.create(
+            plates=plates,
+            economic_number=economic_number,
+            seats=seats,
+            status=status
+        )
+
+        self.assertIsNotNone(van.pk)
+
+        status = 'this_dont_exists'
+
+        with self.assertRaises(ValueError):
+            Van.objects.create(
+                plates=plates,
+                economic_number=economic_number,
+                seats=seats,
+                status=status
+            )
