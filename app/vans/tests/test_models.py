@@ -16,7 +16,7 @@ def sample_van(**params):
         'plates': 'AW3-123',
         'economic_number': 'A1',
         'seats': 6,
-        'status': 'Activa',
+        'status': 'ACTIVE',
     }
     defaults.update(params)
 
@@ -31,7 +31,7 @@ class ModelTests(TestCase):
             'plates': 'AW3-123',
             'economic_number': 'A1',
             'seats': 6,
-            'status': 'Activa',
+            'status': 'ACTIVE',
         }
         van = sample_van(**data)
 
