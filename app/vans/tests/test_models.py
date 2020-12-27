@@ -13,7 +13,7 @@ def sample_van(**params):
     """Create and return a sample van"""
     defaults = {
         'plates': 'AW3-123',
-        'economic_number': 'A1-0001',
+        'economic_number': 'A1',
         'seats': 6,
         'status': 'Activa',
     }
@@ -26,12 +26,18 @@ class ModelTests(TestCase):
 
     def test_create_a_van_successful(self):
         """Test creating a new van is successful"""
-        van = sample_van()
+        data = {
+            'plates': 'AW3-123',
+            'economic_number': 'A1',
+            'seats': 6,
+            'status': 'Activa',
+        }
+        van = sample_van(**data)
 
-        self.assertEqual(van.plates, plates)
-        self.assertEqual(van.economic_number, economic_number)
-        self.assertEqual(van.seats, seats)
-        self.assertEqual(van.status, status)
+        self.assertEqual(van.plates, data['plates'])
+        self.assertEqual(van.economic_number, f'{data["economic_number"]}0001')
+        self.assertEqual(van.seats, data['seats'])
+        self.assertEqual(van.status, data['status'])
         self.assertEqual(van.created_at, datetime.date.today())
 
     def test_plates_format(self):
@@ -52,3 +58,20 @@ class ModelTests(TestCase):
 
         with self.assertRaises(ValueError):
             sample_van(status='this_status_does_not_exists')
+
+    def test_plates_are_unique(self):
+        """Test plates are unique"""
+        with self.assertRaises(ValueError):
+            sample_van()
+            sample_van()
+
+    def test_economic_number_secuence(self):
+        """Test the economic number secuence generation"""
+        van1 = sample_van(economic_number='NUM')
+        self.assertEqual(van1.economic_number, 'NUM-0001')
+
+        van2 = sample_van(economic_number='NUM')
+        self.assertEqual(van2.economic_number, 'NUM-0002')
+
+        van3 = sample_van(economic_number='NUM')
+        self.assertEqual(van3.economic_number, 'NUM-0003')
