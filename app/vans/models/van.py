@@ -61,13 +61,22 @@ class Van(models.Model):
     )
 
 
-# @receiver(post_save, sender=Van)
-# def economic_number_handle(sender, created, instance):
-#     """Generate the number secuence"""
-#     if created:
-#         last_van = sender.objects.filter(
-#             economic_number__startswith=instance.places
-#         ).order_by('-economic_number').first()
+@receiver(post_save, sender=Van)
+def economic_number_handle(sender, created, instance, **kwargs):
+    """Generate the economic number secuence"""
+    if created:
+        last_van = sender.objects.filter(
+            economic_number__startswith=instance.economic_number,
+        ).exclude(
+            uuid=instance.uuid
+        ).order_by('-economic_number').first()
 
-#         number = last_van.places.split('-')[1]
+        if last_van:
+            number = last_van.economic_number.split('-')[1]
+            number = int(number) + 1
 
+            instance.economic_number = f'{instance.economic_number}-{str(number).zfill(4)}'
+            instance.save()
+        else:
+            instance.economic_number = f'{instance.economic_number}-0001'
+            instance.save()
