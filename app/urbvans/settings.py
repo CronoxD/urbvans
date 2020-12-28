@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     # 3th
     'rest_framework',
+    'django_filters',
 
     # Local apps
     'vans',
@@ -131,3 +132,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Django REST Framework
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}

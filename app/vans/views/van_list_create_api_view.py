@@ -12,3 +12,4 @@ from vans.serializers import VanSerializer
 class VanListCreateAPIView(ListCreateAPIView):
     queryset = Van.objects.all()
     serializer_class = VanSerializer
+    filterset_fields = ['status']
