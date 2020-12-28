@@ -17,9 +17,24 @@ Including another URLconf
 # Django
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
+
+# Django REST Framework
+from rest_framework.schemas import get_schema_view
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/', include('vans.urls')),
+
+    path('openapi/', get_schema_view(
+        title="Urbvan vans",
+        description="Servicio para administrar las vans",
+        version="1.0.0"
+    ), name='openapi-schema'),
+
+    path('doc/', TemplateView.as_view(
+        template_name='doc.html',
+        extra_context={'schema_url':'openapi-schema'}
+    ), name='doc'),
 ]
