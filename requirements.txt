@@ -5,3 +5,4 @@ djangorestframework==3.12
 django-filter==2.4
 pyyaml==5.3
 uritemplate==3.0
+python-memcached==1.59
