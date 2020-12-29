@@ -9,6 +9,9 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.core.cache import cache
 
+# Models
+from vans.models import EconomicNumberHistory
+
 # Utilities
 import uuid as _uuid
 
@@ -77,18 +80,35 @@ def economic_number_handle(sender, created, instance, **kwargs):
     # Clear the cache
     cache.clear()
     if created:
-        last_van = sender.objects.filter(
-            economic_number__startswith=instance.economic_number,
-        ).exclude(
-            uuid=instance.uuid
-        ).order_by('-economic_number').first()
+        last_economic_number = EconomicNumberHistory.objects.filter(
+            economic_number_initial=instance.economic_number,
+        ).order_by('-number').first()
 
-        if last_van:
-            number = last_van.economic_number.split('-')[1]
+        if last_economic_number:
+            number = last_economic_number.number
             number = int(number) + 1
+            initial = instance.economic_number
 
-            instance.economic_number = f'{instance.economic_number}-{str(number).zfill(4)}'
+            economic_number = f'{initial}-{str(number).zfill(4)}'
+            instance.economic_number = economic_number
+
+            # Save economic number history
+            EconomicNumberHistory.objects.create(
+                economic_number=economic_number,
+                economic_number_initial=initial,
+                number=number
+            )
             instance.save()
         else:
-            instance.economic_number = f'{instance.economic_number}-0001'
+            # Make the first number -0001
+            initial = instance.economic_number
+            economic_number = f'{initial}-0001'
+            instance.economic_number = economic_number
+
+            # Save economic number history
+            EconomicNumberHistory.objects.create(
+                economic_number=economic_number,
+                economic_number_initial=initial,
+                number=1
+            )
             instance.save()
