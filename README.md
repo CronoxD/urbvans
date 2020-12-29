@@ -15,7 +15,7 @@ git clone https://github.com/CronoxD/urbvans.git && cd urbvans
 
 2. Configurar las variables de entorno.
 ```bash
-cp app/.env.dev.example app/.env.devurbvans
+cp app/.env.dev.example app/.env.dev
 ```
 
 3. Compilar los contenedores. (El archivo por defecto docker-compose.yml es para desarrollo.)
@@ -35,7 +35,7 @@ Se asume que el repositorio ya está clonado en el servidor.
 
 1. Configurar variables de entorno.
 ```bash
-cp app/.env.prod.example app/.env.produrbvans
+cp app/.env.prod.example app/.env.prod
 ```
 
 2. Compilar y correr los contenedores
