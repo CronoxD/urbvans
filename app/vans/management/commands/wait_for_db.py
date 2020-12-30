@@ -8,7 +8,10 @@ import time
 
 
 class Command(BaseCommand):
-    help = 'Intenta hacer y aplicar las migraciones hasta que la base de datos esté lista para recibir conexiones.'
+    help = (
+        'Intenta hacer y aplicar las migraciones'
+        'hasta que la base de datos esté lista para recibir conexiones.'
+    )
 
     def handle(self, *args, **options):
         self.stdout.write('Aplicando migraciones...')

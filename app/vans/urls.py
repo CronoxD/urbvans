@@ -11,5 +11,10 @@ app_name = 'vans'
 
 urlpatterns = [
     path('vans/', views.VanListCreateAPIView.as_view(), name='van-list'),
-    path('vans/<uuid>/', views.VanRetrieveUpdateDestroyAPIView.as_view(), name='van-detail'),
+
+    path(
+        'vans/<uuid>/',
+        views.VanRetrieveUpdateDestroyAPIView.as_view(),
+        name='van-detail'
+    ),
 ]

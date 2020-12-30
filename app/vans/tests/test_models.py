@@ -35,8 +35,10 @@ class ModelTests(TestCase):
         }
         van = sample_van(**data)
 
+        economic_number = f'{data["economic_number"]}-0001'
+
         self.assertEqual(van.plates, data['plates'])
-        self.assertEqual(van.economic_number, f'{data["economic_number"]}-0001')
+        self.assertEqual(van.economic_number, economic_number)
         self.assertEqual(van.seats, data['seats'])
         self.assertEqual(van.status, data['status'])
         self.assertEqual(van.created_at.date(), datetime.date.today())
@@ -64,23 +66,30 @@ class ModelTests(TestCase):
     def test_economic_number_dont_repeat(self):
         """Test the economic number dont repeat when is deleted"""
 
-        sample_van(economic_number='TAR', plates='TAR-001') # SN: TAR-0001
+        # SN: TAR-0001
+        sample_van(economic_number='TAR', plates='TAR-001')
 
-        van_tar_2 = sample_van(economic_number='TAR', plates='TAR-002') # SN: TAR-0002
+        # SN: TAR-0002
+        van_tar_2 = sample_van(economic_number='TAR', plates='TAR-002')
         van_tar_2.delete()
 
-        van_num_1 = sample_van(economic_number='NUM', plates='TAR-002') #  # SN: NUM-0001
+        # SN: NUM-0001
+        van_num_1 = sample_van(economic_number='NUM', plates='TAR-002')
         self.assertEqual(van_num_1.economic_number, 'NUM-0001')
 
-        van_tar_3 = sample_van(economic_number='TAR', plates='TAR-003') # SN: TAR-0003
+        # SN: TAR-0003
+        van_tar_3 = sample_van(economic_number='TAR', plates='TAR-003')
         self.assertEqual(van_tar_3.economic_number, 'TAR-0003')
 
     def test_similar_economic_number(self):
         """Test secuence economic number with similar initials"""
-        sample_van(economic_number='TAR', plates='TAR-001') # SN: TAR-0001
+        # SN: TAR-0001
+        sample_van(economic_number='TAR', plates='TAR-001')
 
-        van_tara_1 = sample_van(economic_number='TARA', plates='TAA-001') # SN: TARA-0001
+        # SN: TARA-0001
+        van_tara_1 = sample_van(economic_number='TARA', plates='TAA-001')
         self.assertEqual(van_tara_1.economic_number, 'TARA-0001')
 
-        van_tar_2 = sample_van(economic_number='TAR', plates='TAR-002') # SN: TAR-0001
+        # SN: TAR-0001
+        van_tar_2 = sample_van(economic_number='TAR', plates='TAR-002')
         self.assertEqual(van_tar_2.economic_number, 'TAR-0002')

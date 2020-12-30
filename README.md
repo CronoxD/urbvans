@@ -53,4 +53,8 @@ docker-compose -f docker-compose.prod.yml exec app python manage.py migrate --no
 docker-compose -f docker-compose.prod.yml exec app python manage.py collectstatic --no-input --clear
 ```
 
+Para ejecutar los test
+```bash
+docker-compose -f docker-compose.prod.yml exec app python manage.py test
+```
 El servidor está en http://localhost

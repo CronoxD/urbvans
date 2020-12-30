@@ -180,7 +180,8 @@ class VansApiCreateListTest(TestCase):
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         van = Van.objects.get(uuid=res.data['uuid'])
 
+        economic_number = f'{payload["economic_number"]}-0001'
         self.assertEqual(payload['plates'], van.plates)
-        self.assertEqual(f'{payload["economic_number"]}-0001', van.economic_number)
+        self.assertEqual(economic_number, van.economic_number)
         self.assertEqual(payload['seats'], van.seats)
         self.assertEqual(payload['status'], van.status)

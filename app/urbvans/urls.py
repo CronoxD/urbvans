@@ -35,6 +35,6 @@ urlpatterns = [
 
     path('doc/', TemplateView.as_view(
         template_name='doc.html',
-        extra_context={'schema_url':'openapi-schema'}
+        extra_context={'schema_url': 'openapi-schema'}
     ), name='doc'),
 ]
