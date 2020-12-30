@@ -14,6 +14,9 @@ from vans.serializers import VanSerializer
 
 
 class VanListCreateAPIView(ListCreateAPIView):
+    """This endpoint list vans and create a new van
+    GET /v1/vans/ Retrieve a list vans
+    """
     queryset = Van.objects.all()
     serializer_class = VanSerializer
     filterset_fields = ['status']

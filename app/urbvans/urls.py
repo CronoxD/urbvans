@@ -29,8 +29,8 @@ urlpatterns = [
 
     path('openapi/', get_schema_view(
         title="Urbvan vans",
-        description="Servicio para administrar las vans",
-        version="1.0.0"
+        description="API REST to manage vans",
+        version="1.0.0",
     ), name='openapi-schema'),
 
     path('doc/', TemplateView.as_view(
