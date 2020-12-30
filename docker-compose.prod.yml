@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   app:
-    build: .
+    build: ./app
     command: gunicorn urbvans.wsgi:application --bind 0.0.0.0:8000
     depends_on:
       - db
